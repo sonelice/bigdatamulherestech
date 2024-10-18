@@ -110,18 +110,60 @@
 #     main()
 
 
+#Atividade 3
+ 
 
-
-
+# Função para exibir o cardápio
+def exibir_cardapio():
+    cardapio = {
+        1: {"item": "Hambúrguer", "preco": 20.00},
+        2: {"item": "Pizza", "preco": 30.00},
+        3: {"item": "Salada", "preco": 15.00},
+        4: {"item": "Suco", "preco": 8.00}
+    }
     
+    print("Cardápio:")
+    for codigo, dados in cardapio.items():
+        print(f"{codigo} - {dados['item']}: R${dados['preco']:.2f}")
+    
+    return cardapio
 
-# import random # trabalhar com dados gerados aleatoriamente
+# Função para realizar o pedido (sem while, try, except ou break)
+def realizar_pedido(cardapio, pedidos=[]):
+    print("\nDigite o código do item que deseja pedir (0 para encerrar):")
+    codigo = int(input())
+    
+    if codigo == 0:
+        return pedidos  # Encerra quando o usuário digita 0
+    
+    if codigo in cardapio:
+        pedidos.append(cardapio[codigo])
+        print(f"Você pediu {cardapio[codigo]['item']}")
+    else:
+        print("Código inválido. Tente novamente.")
+    
+    return realizar_pedido(cardapio, pedidos)  # Chamada recursiva para continuar os pedidos
 
-# # crie uma funçao que gere dois números aleatorios dentro do intervalo
+# Função para fechar a conta
+def fechar_conta(pedidos):
+    if not pedidos:
+        print("\nVocê não fez nenhum pedido.")
+        return
+    
+    total = sum(item['preco'] for item in pedidos)
+    print("\nSeus pedidos:")
+    for item in pedidos:
+        print(f"- {item['item']}: R${item['preco']:.2f}")
+    
+    print(f"\nTotal a pagar: R${total:.2f}")
 
-# def doisnum_aleatorios(quantidade=2,numero_minimo=0,numero_maximo=1):
-#         for i in range(2):
-#             return random.randint(numero_minimo,numero_maximo)
-        
-# numeros=doisnum_aleatorios(20,1,100)
-# print(numeros)
+# Função principal para rodar o sistema
+def restaurante():
+    cardapio = exibir_cardapio()
+    pedidos = realizar_pedido(cardapio)
+    fechar_conta(pedidos)
+
+# Executar o sistema
+restaurante()
+
+
